@@ -14,14 +14,14 @@ tokio = { version = "1.50.0", features = ["full"] }
 tokio-util = "0.7.18"
 
 [dependencies.reqwest]
-version = "0.12.28"
+version = "0.13.2"
 default-features = false
 features = [
     "charset",
     "cookies",
     "http2",
     "http3",
-    "rustls-tls-webpki-roots",
+    "rustls",
     "stream",
     "multipart",
     "socks",

@@ -198,8 +198,18 @@ fn create_client(settings: ClientSettings) -> Result<RequestClient, RhttpError> 
         }
 
         if let Some(tls_settings) = settings.tls_settings {
+            let certificates = tls_settings.trusted_root_certificates.iter().map(|cert| {
+                Certificate::from_pem(&cert).map_err(|e| {
+                    RhttpError::RhttpUnknownError(format!(
+                        "Error adding trusted certificate: {e:?}"
+                    ))
+                })
+            }).collect::<Result<Vec<Certificate>, RhttpError>>()?;
+
             if !tls_settings.trust_root_certificates {
-                client = client.tls_built_in_root_certs(false);
+                client = client.tls_certs_only(certificates);
+            } else {
+                client = client.tls_certs_merge(certificates);
             }
 
             for cert in tls_settings.trusted_root_certificates {

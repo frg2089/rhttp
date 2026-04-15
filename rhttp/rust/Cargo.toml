@@ -19,8 +19,10 @@ default-features = false
 features = [
     "charset",
     "cookies",
+    "form",
     "http2",
     "http3",
+    "query",
     "rustls",
     "stream",
     "multipart",

@@ -100,6 +100,46 @@ dependencies:
   rhttp: <version>
 ```
 
+#### Android Configuration
+The native android side of your app must be configured specially.
+
+##### Proguard Exclusions
+By default Android's [R8 shrinker](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) will remove any (seemingly) unused Java classes. However [`rustls-platform-verifier` needs these classes](https://github.com/rustls/rustls-platform-verifier#proguard).
+
+Therefore add a `android/app/proguard-rules.pro` file if it is not already existing and add or append the following line:
+```
+-keep, includedescriptorclasses class org.rustls.platformverifier.** { *; }
+```
+If the proguard file did not exist earlier it must also be added to `android/app/build.gradle.kts`:
+```diff
+ android {
+    ...
+    buildTypes {
+        release {
+            ...
+   
++            proguardFiles(
++                getDefaultProguardFile("proguard-android-optimize.txt"),
++                "proguard-rules.pro"
+             )
+         }
+     }
+}
+```
+
+##### Internet Access Permission (Optional, but commonly needed)
+By default flutter only injects the `android.permission.INTERNET` in debug mode.  
+If internet is needed in *release* mode too, the following permission must be added to `android/app/src/main/AndroidManifest.xml`:
+```diff
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android">
++    <uses-permission android:name="android.permission.INTERNET"/>
+     <application
+         ...
+```
+
+##### Network Security Configuration (Optional)
+If you only want to allow access to certain endpoints, restrict the set of public CAs that the app trusts or if your app should consider *user installed certificates*, you will need a [`network_security_config.xml`](https://developer.android.com/privacy-and-security/security-config) file.
+
 ### ➤ Initialization
 
 ```dart

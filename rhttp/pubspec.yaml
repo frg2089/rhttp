@@ -56,7 +56,8 @@ flutter:
   plugin:
     platforms:
       android:
-        ffiPlugin: true
+        package: com.flutter_rust_bridge.rhttp
+        pluginClass: RhttpPlugin
       ios:
         ffiPlugin: true
       linux:

@@ -1,6 +1,7 @@
 ## 0.18.0
 
 - feat: restore previous behavior of trusting root certificates from webpki-roots broken by 0.17.0
+- deps: bump Rust dependencies to latest versions
 - **BREAKING**: `trustRootCertificates` changed to `rootCertSource`
 
 ## 0.17.0

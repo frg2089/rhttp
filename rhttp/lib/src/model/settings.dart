@@ -33,6 +33,14 @@ class ClientSettings {
   /// Throws an exception if the status code is 4xx or 5xx.
   final bool throwOnStatusCode;
 
+  /// Enables Encrypted Client Hello (ECH) where supported.
+  /// Defaults to `false`.
+  final bool enableEch;
+
+  /// Requires Encrypted Client Hello (ECH) and disables fallback.
+  /// Defaults to `false`.
+  final bool requireEch;
+
   /// Proxy settings.
   final ProxySettings? proxySettings;
 
@@ -57,6 +65,8 @@ class ClientSettings {
     this.httpVersionPref = HttpVersionPref.all,
     this.timeoutSettings,
     this.throwOnStatusCode = true,
+    this.enableEch = false,
+    this.requireEch = false,
     this.proxySettings,
     this.redirectSettings,
     this.tlsSettings,
@@ -70,6 +80,8 @@ class ClientSettings {
     HttpVersionPref? httpVersionPref,
     TimeoutSettings? timeoutSettings = _keepTimeoutSettings,
     bool? throwOnStatusCode,
+    bool? enableEch,
+    bool? requireEch,
     ProxySettings? proxySettings = _keepProxySettings,
     RedirectSettings? redirectSettings = _keepRedirectSettings,
     TlsSettings? tlsSettings = _keepTlsSettings,
@@ -86,6 +98,8 @@ class ClientSettings {
           ? this.timeoutSettings
           : timeoutSettings,
       throwOnStatusCode: throwOnStatusCode ?? this.throwOnStatusCode,
+      enableEch: enableEch ?? this.enableEch,
+      requireEch: requireEch ?? this.requireEch,
       proxySettings: identical(proxySettings, _keepProxySettings)
           ? this.proxySettings
           : proxySettings,
@@ -377,6 +391,8 @@ extension ClientSettingsExt on ClientSettings {
       httpVersionPref: httpVersionPref._toRustType(),
       timeoutSettings: timeoutSettings?._toRustType(),
       throwOnStatusCode: throwOnStatusCode,
+      enableEch: enableEch,
+      requireEch: requireEch,
       proxySettings: proxySettings?._toRustType(),
       redirectSettings: redirectSettings?._toRustType(),
       tlsSettings: tlsSettings?._toRustType(),

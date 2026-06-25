@@ -905,6 +905,8 @@ impl SseDecode for crate::api::client::ClientSettings {
         let mut var_timeoutSettings =
             <Option<crate::api::client::TimeoutSettings>>::sse_decode(deserializer);
         let mut var_throwOnStatusCode = <bool>::sse_decode(deserializer);
+        let mut var_enableEch = <bool>::sse_decode(deserializer);
+        let mut var_requireEch = <bool>::sse_decode(deserializer);
         let mut var_proxySettings =
             <Option<crate::api::client::ProxySettings>>::sse_decode(deserializer);
         let mut var_redirectSettings =
@@ -918,6 +920,8 @@ impl SseDecode for crate::api::client::ClientSettings {
             http_version_pref: var_httpVersionPref,
             timeout_settings: var_timeoutSettings,
             throw_on_status_code: var_throwOnStatusCode,
+            enable_ech: var_enableEch,
+            require_ech: var_requireEch,
             proxy_settings: var_proxySettings,
             redirect_settings: var_redirectSettings,
             tls_settings: var_tlsSettings,
@@ -1848,6 +1852,8 @@ impl flutter_rust_bridge::IntoDart for crate::api::client::ClientSettings {
             self.http_version_pref.into_into_dart().into_dart(),
             self.timeout_settings.into_into_dart().into_dart(),
             self.throw_on_status_code.into_into_dart().into_dart(),
+            self.enable_ech.into_into_dart().into_dart(),
+            self.require_ech.into_into_dart().into_dart(),
             self.proxy_settings.into_into_dart().into_dart(),
             self.redirect_settings.into_into_dart().into_dart(),
             self.tls_settings.into_into_dart().into_dart(),
@@ -2566,6 +2572,8 @@ impl SseEncode for crate::api::client::ClientSettings {
             serializer,
         );
         <bool>::sse_encode(self.throw_on_status_code, serializer);
+        <bool>::sse_encode(self.enable_ech, serializer);
+        <bool>::sse_encode(self.require_ech, serializer);
         <Option<crate::api::client::ProxySettings>>::sse_encode(self.proxy_settings, serializer);
         <Option<crate::api::client::RedirectSettings>>::sse_encode(
             self.redirect_settings,

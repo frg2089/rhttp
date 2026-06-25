@@ -358,11 +358,11 @@ async fn make_http_request_helper(
         },
     };
 
+    let parsed_url = Url::parse(&url).map_err(|e| RhttpError::RhttpUnknownError(e.to_string()))?;
+    let effective_client = client.client_for_url(&parsed_url).await?;
+
     let request = {
-        let mut request = client.client.request(
-            method.to_method(),
-            Url::parse(&url).map_err(|e| RhttpError::RhttpUnknownError(e.to_string()))?,
-        );
+        let mut request = effective_client.request(method.to_method(), parsed_url);
 
         request = match client.http_version_pref {
             HttpVersionPref::Http10 => request.version(Version::HTTP_10),
@@ -450,7 +450,7 @@ async fn make_http_request_helper(
             .map_err(|e| RhttpError::RhttpUnknownError(e.to_string()))?
     };
 
-    let response = client.client.execute(request).await.map_err(|e| {
+    let response = effective_client.execute(request).await.map_err(|e| {
         if e.is_redirect() {
             RhttpError::RhttpRedirectError
         } else if e.is_timeout() {

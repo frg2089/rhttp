@@ -9,9 +9,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 part 'client.freezed.dart';
 
-// These functions are ignored because they are not marked as `pub`: `create_client`, `new_default`, `new`
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `DynamicDnsSettings`, `DynamicResolver`, `StaticResolver`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `resolve`, `resolve`
+// These functions are ignored because they are not marked as `pub`: `apply_dns_settings`, `apply_reqwest_tls_settings`, `build_ech_tls_config`, `build_reqwest_client`, `build_root_store`, `client_for_url`, `collect_pem_certificates`, `collect_root_cert_ders`, `create_client`, `extract_https_svc_param`, `lookup_alidns_https_ech`, `lookup_ech_config`, `new_default`, `new`, `new`, `parse_alidns_https_ech_response`, `parse_private_key`, `should_try_ech`, `webpki_root_certs`
+// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `ClientRuntime`, `DynamicDnsSettings`, `DynamicResolver`, `EchClientCacheEntry`, `EchLookupResult`, `EchTransport`, `NoVerifier`, `ParsedAliDnsHttpsEch`, `StaticResolver`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `fmt`, `resolve`, `resolve`, `supported_verify_schemes`, `verify_server_cert`, `verify_tls12_signature`, `verify_tls13_signature`
 
 DnsSettings createStaticResolverSync({required StaticDnsSettings settings}) =>
     RustLib.instance.api.crateApiClientCreateStaticResolverSync(
@@ -56,6 +56,8 @@ class ClientSettings {
   final HttpVersionPref httpVersionPref;
   final TimeoutSettings? timeoutSettings;
   final bool throwOnStatusCode;
+  final bool enableEch;
+  final bool requireEch;
   final ProxySettings? proxySettings;
   final RedirectSettings? redirectSettings;
   final TlsSettings? tlsSettings;
@@ -67,6 +69,8 @@ class ClientSettings {
     required this.httpVersionPref,
     this.timeoutSettings,
     required this.throwOnStatusCode,
+    required this.enableEch,
+    required this.requireEch,
     this.proxySettings,
     this.redirectSettings,
     this.tlsSettings,
@@ -83,6 +87,8 @@ class ClientSettings {
       httpVersionPref.hashCode ^
       timeoutSettings.hashCode ^
       throwOnStatusCode.hashCode ^
+      enableEch.hashCode ^
+      requireEch.hashCode ^
       proxySettings.hashCode ^
       redirectSettings.hashCode ^
       tlsSettings.hashCode ^
@@ -98,6 +104,8 @@ class ClientSettings {
           httpVersionPref == other.httpVersionPref &&
           timeoutSettings == other.timeoutSettings &&
           throwOnStatusCode == other.throwOnStatusCode &&
+          enableEch == other.enableEch &&
+          requireEch == other.requireEch &&
           proxySettings == other.proxySettings &&
           redirectSettings == other.redirectSettings &&
           tlsSettings == other.tlsSettings &&

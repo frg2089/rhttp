@@ -1541,6 +1541,7 @@ dependencies = [
 name = "rhttp"
 version = "0.1.0"
 dependencies = [
+ "base64",
  "chrono",
  "flutter_rust_bridge",
  "futures-util",
@@ -1548,7 +1549,9 @@ dependencies = [
  "log",
  "ndk-context",
  "reqwest",
+ "rustls",
  "rustls-platform-verifier",
+ "serde_json",
  "tokio",
  "tokio-util",
  "webpki-root-certs",
@@ -1596,6 +1599,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ef86cd5876211988985292b91c96a8f2d298df24e75989a43a3c73f2d4d8168b"
 dependencies = [
  "aws-lc-rs",
+ "log",
  "once_cell",
  "rustls-pki-types",
  "rustls-webpki",
